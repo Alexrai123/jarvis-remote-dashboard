@@ -1,0 +1,22 @@
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+cloudflared.exe
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.manifest
+venv/
+env/
+.env
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+Desktop.ini

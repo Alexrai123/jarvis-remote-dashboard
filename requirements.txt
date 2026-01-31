@@ -1,0 +1,9 @@
+flask
+langchain_community
+opencv-python
+mss
+pyautogui
+psutil
+AppOpener
+numpy
+pyaudio
