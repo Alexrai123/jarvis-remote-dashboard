@@ -1,60 +1,58 @@
-# Jarvis Remote Dashboard
+# 🧠 Jarvis - Autonomous Local AI Agent
 
-A powerful, customizable remote control dashboard for your Windows PC, powered by a local LLM (Llama 3 via Ollama) and Python.
+A multimodal, privacy-first AI agent designed to run locally on Windows. It perceives its environment through computer vision, listens via voice input, and executes system-level actions autonomously using **Function Calling**.
 
-## Features
+## 🚀 Key Features
 
-*   **Smart Voice/Text Commands**: Control your PC using natural language (e.g., "Mute volume", "Open Spotify", "Lock PC"). Powered by Ollama.
-*   **Live Dashboard**: Mobile-friendly web interface to see your PC's status.
-*   **Video Streaming**:
-    *   **Webcam Feed**: View your PC's webcam remotely.
-    *   **Screen Share**: View your active monitors in real-time.
-*   **System Control**:
-    *   Volume Control (Up, Down, Mute)
-    *   Media (Play/Pause, Next/Prev)
-    *   Power (Shutdown, Lock, Logout)
-    *   App Launcher
-*   **Monitoring**: Real-time CPU and RAM usage charts.
+* **🤖 Local LLM Orchestration:** Powered by **Llama 3** (via Ollama) & **LangChain**.
+* **🛠️ Agentic Capabilities:** The AI autonomously decides when to trigger tools (Lock PC, Open Apps, Search Web) based on intent.
+* **⚡ Low-Latency Architecture:** Uses Python `threading` and `queues` to decouple Model Inference, TTS, and Video Streaming for real-time performance.
+* **👁️ Computer Vision:** Live streaming of Webcam & Desktop via **OpenCV** & **MSS** to a mobile-responsive dashboard.
+* **🔐 Secure Remote Access:** Production-ready exposure via **Nginx Reverse Proxy** and **Cloudflare Tunnels**.
+* **📊 Monitoring:** Real-time CPU/RAM visualization.
 
-## Prerequisites
+## 📱 Dashboard
+*(Add a screenshot of your phone screen here)*
 
-*   **Python 3.8+**
-*   **Ollama**: Installed and running with the `llama3` model pulled (`ollama pull llama3`).
-*   **Windows**: Designed primarily for Windows (due to `pyautogui`, `cv2`, `mss` usage patterns).
+## 🛠️ Tech Stack
+* **Core:** Python 3.x, Flask (Async)
+* **AI:** Ollama, LangChain
+* **Vision:** OpenCV, MSS
+* **Automation:** PyAutoGUI, AppOpener
+* **Infrastructure:** Nginx, Cloudflare Zero Trust
 
-## Installation
+## ⚙️ Installation
 
-1.  Clone the repository:
+1.  **Prerequisites:**
+    * Python 3.10+
+    * Ollama with `llama3` model pulled.
+    * Nginx & Cloudflare (optional for remote access).
+
+2.  **Setup:**
     ```bash
-    git clone https://github.com/Alexrai123/jarvis-remote-dashboard.git
+    git clone [https://github.com/Alexrai123/jarvis-remote-dashboard.git](https://github.com/Alexrai123/jarvis-remote-dashboard.git)
     cd jarvis-remote-dashboard
-    ```
-
-2.  Install dependencies:
-    ```bash
     pip install -r requirements.txt
     ```
 
-## Usage
+3.  **Running:**
+    * Double click the included `START_JARVIS.bat` to launch Ollama, Nginx, Cloudflare, and the Python Brain simultaneously.
+    * *Or manually:* `python jarvis.py`
 
-1.  Ensure **Ollama** is running locally.
-2.  Start the server:
-    ```bash
-    python remote_server.py
-    ```
-3.  Access the dashboard in your browser:
-    *   Local: `http://localhost:5000`
-    *   Network: `http://<YOUR_PC_IP>:5000`
+## ⚠️ Security
+Allows full remote control. Use only behind secure tunnels (Cloudflare) or VPNs.
 
-## Security Warning
-
-⚠️ **Use with Caution**: This application allows **full remote control** of your PC (shell commands, screen capture, camera). It currently **does not** have built-in authentication.
-*   Do not expose this port to the public internet without a secure tunnel (like Cloudflare Zero Trust) with authentication middleware.
-*   Only use on trusted private networks.
-
-## Technologies
-
-*   **Backend**: Flask (Python)
-*   **LLM Interface**: LangChain Community + Ollama
-*   **Computer Vision**: OpenCV, MSS
-*   **Automation**: PyAutoGUI, AppOpener
+```mermaid
+graph TD
+    User[📱 Mobile User] -->|HTTPS| CF[Cloudflare Tunnel]
+    CF -->|Reverse Proxy| Nginx[Nginx Server]
+    Nginx -->|Request| Flask[Flask Backend]
+    
+    subgraph "Jarvis Core (Local PC)"
+        Flask -->|Video Feed| CV[OpenCV/MSS]
+        Flask -->|Text Prompt| LLM[Ollama / Llama3]
+        LLM -->|Decision| Tools[Tool Execution]
+        Tools -->|Action| Sys[Windows System / Apps]
+        Tools -->|Reply| TTS[Voice Engine (Threaded)]
+    end
+```
