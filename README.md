@@ -12,9 +12,11 @@ A multimodal, privacy-first AI agent designed to run locally on Windows. It perc
 * **📊 Monitoring:** Real-time CPU/RAM visualization.
 
 ## 📱 Dashboard
-*(Add a screenshot of your phone screen here)*
+
+![Dashboard Screenshot](dashboard_screenshot.png)
 
 ## 🛠️ Tech Stack
+
 * **Core:** Python 3.x, Flask (Async)
 * **AI:** Ollama, LangChain
 * **Vision:** OpenCV, MSS
@@ -23,24 +25,38 @@ A multimodal, privacy-first AI agent designed to run locally on Windows. It perc
 
 ## ⚙️ Installation
 
-1.  **Prerequisites:**
-    * Python 3.10+
-    * Ollama with `llama3` model pulled.
-    * Nginx & Cloudflare (optional for remote access).
+### Prerequisites
+* Python 3.10+
+* [Ollama](https://ollama.com/) with `llama3` model pulled.
+* Nginx & Cloudflare (optional for remote access).
 
-2.  **Setup:**
+### Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Alexrai123/jarvis-remote-dashboard.git
+   cd jarvis-remote-dashboard
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## 🎮 Usage
+
+**Manual Startup Steps:**
+
+1.  **Ollama**: Ensure the Ollama app is running in the background.
+2.  **Nginx**: Navigate to the Nginx installation folder and double-click `nginx.exe`. *(Note: It must be run from the folder, not via Windows Search)*.
+3.  **Cloudflare Tunnel**: Open a terminal in the project folder and run:
     ```bash
-    git clone [https://github.com/Alexrai123/jarvis-remote-dashboard.git](https://github.com/Alexrai123/jarvis-remote-dashboard.git)
-    cd jarvis-remote-dashboard
-    pip install -r requirements.txt
+    cloudflared tunnel --url http://127.0.0.1:80
+    ```
+4.  **Jarvis**: Open a second terminal and run:
+    ```bash
+    python jarvis.py
     ```
 
-3.  **Running:**
-    * Double click the included `START_JARVIS.bat` to launch Ollama, Nginx, Cloudflare, and the Python Brain simultaneously.
-    * *Or manually:* `python jarvis.py`
-
-## ⚠️ Security
-Allows full remote control. Use only behind secure tunnels (Cloudflare) or VPNs.
+## 🧠 System Architecture
 
 ```mermaid
 graph TD
@@ -53,6 +69,9 @@ graph TD
         Flask -->|Text Prompt| LLM[Ollama / Llama3]
         LLM -->|Decision| Tools[Tool Execution]
         Tools -->|Action| Sys[Windows System / Apps]
-        Tools -->|Reply| TTS[Voice Engine (Threaded)]
+        Tools -->|Reply| TTS["Voice Engine (Threaded)"]
     end
 ```
+
+## ⚠️ Security
+Allows full remote control. Use only behind secure tunnels (Cloudflare) or VPNs.
